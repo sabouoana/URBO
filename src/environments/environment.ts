@@ -2,8 +2,15 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { accessToken } from "mapbox-gl";
+
 export const environment = {
-  production: false
+  production: false,
+  mapbox: {
+    // accessToken: 'pk.eyJ1Ijoic2Fib3VvYW5hIiwiYSI6ImNrbWhsejV2ZzA4azQycG10NDRqZG9jZDcifQ.BF__hQbeLYNGpG1CXtMXcg'
+    // accessToken: 'pk.eyJ1Ijoic2Fib3VvYW5hIiwiYSI6ImNrbWhsd3IxbTA4b3MzMXFrd20xYjNreGsifQ.aHnhSlWNYcgCad-4P-vNYQ'
+    accessToken: 'pk.eyJ1Ijoic2Fib3VvYW5hIiwiYSI6ImNrbWhsd3IxbTA4b3MzMXFrd20xYjNreGsifQ.aHnhSlWNYcgCad-4P-vNYQ'
+  }
 };
 
 /*

@@ -1,0 +1,39 @@
+<div id="map" class="map-container">
+</div>
+
+<div id="menu">
+    <input class='mar1' id="mapbox://styles/mapbox/satellite-v9" type="radio" name="rtoggle" value="satellite">
+    <!-- See a list of Mapbox-hosted public styles at -->
+    <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+    <label class='mar2' for="mapbox://styles/mapbox/satellite-v9">Satellite</label>
+    <input class='mar1' id="mapbox://styles/mapbox/light-v10" type="radio" name="rtoggle" value="light">
+    <label class='mar2' for="mapbox://styles/mapbox/light-v10">Light</label>
+    <input class='mar1' id="mapbox://styles/mapbox/dark-v10" type="radio" name="rtoggle" value="dark">
+    <label class='mar2' for="mapbox://styles/mapbox/dark-v10">Dark</label>
+    <input class='mar1' id="mapbox://styles/mapbox/streets-v11" type="radio" name="rtoggle" value="streets">
+    <label class='mar2' for="mapbox://styles/mapbox/streets-v11">Streets</label>
+    <input class='mar1' id="mapbox://styles/mapbox/outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+    <label class='mar2' for="mapbox://styles/mapbox/outdoors-v11">Outdoors</label>
+    <input class='mar1' id="mapbox://styles/sabouoana/ckpzs7a3d3ccp17lmnagghuo3" type="radio" name="rtoggle" value="outdoors" checked="checked">
+    <label class='mar2' for="mapbox://styles/sabouoana/ckpzs7a3d3ccp17lmnagghuo3">3D</label>
+</div>
+<pre id="info"></pre>
+<div id="buttons">
+    <button method="post" id="treeBtn"><i class="fa fa-tree"></i></button><br>
+    <button method="post" class='mt-2' id="parkBtn"><i class="fa fa-leaf"></i></button>
+</div>
+
+
+<div class="calculation-box">
+    <p>Draw a polygon using the draw tools.</p>
+    <div id="calculated-area"></div>
+</div>
+
+<nav id="listing-group" class="listing-group">
+    <input type="checkbox" id="scrollZoom" checked="checked">
+    <label for="scrollZoom">Scroll zoom</label>
+    <input type="checkbox" id="dragRotate" checked="checked">
+    <label for="dragRotate">Drag rotate</label>
+    <input type="checkbox" id="doubleClickZoom" checked="checked">
+    <label for="doubleClickZoom">Double click zoom</label>
+</nav>
