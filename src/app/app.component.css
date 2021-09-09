@@ -4,15 +4,14 @@
 }
 
 #logoURBO {
-    height: 40px;
-    width: 350px;
-    margin-left: 38%;
-    margin-top: 35px;
+    width: 40%;
+    margin-left: 28%;
+    margin-top: 24px;
 }
 
 #mainMenu {
     color: aliceblue !important;
-    background-color: rgba(0, 0, 0, 0.378) !important;
+    background-color: rgba(10, 8, 46, 0.5) !important;
 }
 
 #pageTitle {

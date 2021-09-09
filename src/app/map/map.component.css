@@ -51,12 +51,13 @@ body {
 
 #buttons {
     position: absolute;
-    top: 150px;
+    top: 210px;
     left: 0;
     padding: 10px;
 }
 
-#treeBtn {
+
+/* #treeBtn {
     background-color: rgb(118, 160, 118);
     border-radius: 50%;
     height: 45px;
@@ -66,6 +67,14 @@ body {
 
 #parkBtn {
     background-color: rgb(118, 160, 118);
+    border-radius: 50%;
+    height: 45px;
+    width: 45px;
+    font-size: large;
+} */
+
+#reportBtn {
+    background-color: rgb(201, 20, 20);
     border-radius: 50%;
     height: 45px;
     width: 45px;
@@ -86,6 +95,7 @@ body {
     border-radius: 3px;
     color: #222;
     background: rgba(255, 255, 255, 0.426);
+    margin-top: -55px;
 }
 
 .mapboxgl-ctrl-zoom-in {

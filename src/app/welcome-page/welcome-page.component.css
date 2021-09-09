@@ -1,19 +1,132 @@
-#bkImg {
-    margin-top: -25%;
+header.masthead {
+    padding-top: 10rem;
+    padding-bottom: calc(8rem - 4rem);
+    background: linear-gradient(to bottom, rgba(10, 8, 46, 0.967) 0%, rgba(135, 98, 73, 0.727) 100%), url("../../assets/img/smart-city.jpg");
+    /* background-color: aqua; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
 }
 
-#description {
-    margin-top: -250px;
-    padding-left: 100px;
-    padding-right: 100px;
+header.masthead h1,
+header.masthead .h1 {
+    font-size: 2.25rem;
 }
 
-.context {
-    color: white
+@media (min-width: 992px) {
+    header.masthead {
+        height: 84vh;
+        min-height: 40rem;
+        padding-top: 4.5rem;
+        padding-bottom: 0;
+    }
+    header.masthead p {
+        font-size: 1.15rem;
+    }
+    header.masthead h1,
+    header.masthead .h1 {
+        font-size: 3rem;
+    }
 }
 
-#detalii {
-    color: white;
-    margin-left: 40%;
-    margin-bottom: 40px;
+@media (min-width: 1200px) {
+    header.masthead h1,
+    header.masthead .h1 {
+        font-size: 3.5rem;
+    }
+}
+
+.page-section {
+    padding: 8rem 0;
+}
+
+hr.divider {
+    height: 0.2rem;
+    max-width: 3.25rem;
+    margin: 1.5rem auto;
+    background-color: #f4623a;
+    opacity: 1;
+}
+
+hr.divider-light {
+    background-color: #fff;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #f4623a;
+    border-color: #f4623a;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #cf5331;
+    border-color: #c34e2e;
+}
+
+.btn-check:focus+.btn-primary,
+.btn-primary:focus {
+    color: #fff;
+    background-color: #cf5331;
+    border-color: #c34e2e;
+    box-shadow: 0 0 0 0.25rem rgba(246, 122, 88, 0.5);
+}
+
+.btn-check:checked+.btn-primary,
+.btn-check:active+.btn-primary,
+.btn-primary:active,
+.btn-primary.active,
+.show>.btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #c34e2e;
+    border-color: #b74a2c;
+}
+
+.btn-check:checked+.btn-primary:focus,
+.btn-check:active+.btn-primary:focus,
+.btn-primary:active:focus,
+.btn-primary.active:focus,
+.show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.25rem rgba(246, 122, 88, 0.5);
+}
+
+.btn-primary:disabled,
+.btn-primary.disabled {
+    color: #fff;
+    background-color: #f4623a;
+    border-color: #f4623a;
+}
+
+a {
+    color: #f4623a;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #c34e2e;
+}
+
+a:not([href]):not([class]),
+a:not([href]):not([class]):hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+.text-white-75 {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: rgb(233, 98, 35) !important;
+}
+
+#white-section {
+    background-color: white !important;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
 }

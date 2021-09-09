@@ -23,33 +23,17 @@ import "@babel/polyfill";
 export class MapComponent implements OnInit {
  
   style = 'mapbox://styles/sabouoana/ckpzs7a3d3ccp17lmnagghuo3';
-  // style = "mapbox://styles/mapbox/dark-v10";
   lat = 47.647439;
   lng = 23.558760;
 
-  // url = 'mapbox://mapbox.mapbox-terrain-dem-v1';
-
- 
-
-
-  // constructor(private requestService : AppServiceService) {
-
-  // }
-
  public ngOnInit(): void {
-    // this.getDataFromAPI();
-
-    // mapboxgl.accessToken = environment.mapbox.accessToken;
     
   let map:any = new mapboxgl.Map({
       container: 'map',
       style: this.style,
-      zoom: 0, //17.29
+      zoom: 0, 
       center: [this.lng, this.lat],
-      // zoom: 8,
       accessToken: environment.mapbox.accessToken,
-      // pitch: 85, 
-      // bearing: 0.20
   });
 
 
@@ -115,10 +99,8 @@ export class MapComponent implements OnInit {
                 'heatmap-radius': [
                     'interpolate', ['linear'],
                     ['zoom'],
-                    0,
-                    2,
-                    9,
-                    20
+                    0, 2,
+                    9, 20
                 ],
                 // Transition from heatmap to circle layer by zoom level
                 'heatmap-opacity': [
@@ -145,7 +127,7 @@ export class MapComponent implements OnInit {
                     'interpolate', ['linear'],
                     ['zoom'],
                     7, ['interpolate', ['linear'],
-                        ['get', 'mag'], 1, 1, 6, 4
+                        ['get', 'mag'], 0, 1, 6, 4
                     ],
                     16, ['interpolate', ['linear'],
                         ['get', 'mag'], 1, 5, 6, 50
@@ -218,18 +200,22 @@ var draw = new MapboxDraw({
 //Get coordinates of the mouse pointer
 
 let isClickedTreeBtn = false;
-let isClickedParckBtn = false;
+let isClickedParkBtn = false;
+let isClickedReportBtn = false;
 
 map.on('mousemove', function (e:any) {
   document.getElementById('info')!.innerHTML =
 
-  // e.lngLat is the longitude, latitude geographical position of the event
+  JSON.stringify(e.point) +
+  '<br />' +
   JSON.stringify(e.lngLat.wrap());
   });
+
+
 // Add the control to the map.
 map.addControl(
   new MapboxGeocoder({
-  accessToken: 'pk.eyJ1Ijoic2Fib3VvYW5hIiwiYSI6ImNrbWhsd3IxbTA4b3MzMXFrd20xYjNreGsifQ.aHnhSlWNYcgCad-4P-vNYQ'
+  accessToken: environment.mapbox.accessToken
   })
   );
 
@@ -264,9 +250,9 @@ function updateArea(e:any) {
       // restrict to area to 2 decimal points
       var rounded_area = Math.round(area * 100) / 100;
       answer!.innerHTML =
-          '<p><strong>' +
+          '<span><strong>' +
           rounded_area +
-          '</strong></p><p>square meters</p>';
+          '</strong></span><br><span>metrii patrati</span>';
   } else {
       answer!.innerHTML = '';
       if (e.type !== 'draw.delete')
@@ -303,8 +289,8 @@ document.getElementById('treeBtn')!.onclick = function() {
       let inputDetails = document.createElement('div');
       
 
-      removeMarker.innerHTML = "<button id='sendDetails'>Remove</button>";
-      saveDetails.innerHTML = "<button id='sendDetails'>Save</button>";
+      removeMarker.innerHTML = "<button id='sendDetails'>Sterge</button>";
+      saveDetails.innerHTML = "<button id='sendDetails'>Salveaza</button>";
       inputDetails.innerHTML = "<input id='markerInput'></input>";
       title.innerHTML="<h2 class='mt-2'>Details</h2>"
 
@@ -355,7 +341,7 @@ document.getElementById('treeBtn')!.onclick = function() {
         .addTo(map);  
         
         
-        fetch('/saveCoordinates', {
+        fetch('/api/saveCoordinates', {
           method: 'post',
           headers: {
             'Content-Type': 'application/json'
@@ -365,7 +351,7 @@ document.getElementById('treeBtn')!.onclick = function() {
           marker: {
             longitude: e.lngLat.lng,
             latitude: e.lngLat.lat,
-            id: el.id
+            type: el.id
           }
         })
         
@@ -376,57 +362,278 @@ document.getElementById('treeBtn')!.onclick = function() {
     });
 }​;​
 
-document.getElementById('sendDetails')!.onclick = function() {
-  let markerInp = (<HTMLInputElement>document.getElementById('markerInput')).value;
-    console.log(markerInp);
-  }
+// document.getElementById('sendDetails')!.onclick = function() {
+//   let markerInp = (<HTMLInputElement>document.getElementById('markerInput')).value;
+//     console.log(markerInp);
+//   }
 
-  
-document.getElementById('parkBtn')!.onclick = function() {
-  isClickedParckBtn = true;
-
-    map.on('dblclick', function(e:any) {
-  if (isClickedParckBtn) {
-
-      let el = document.createElement('div');
-      el.id = 'park';
-      el.setAttribute('style', ' background-size: cover; width: 50px; height: 50px; border-radius: 50%; cursor: pointer;');
-      el.style.backgroundImage = "url(../../assets/img/park.png)"; 
-      console.log( JSON.stringify(e.lngLat.wrap()))
-
-    
-    
-        let popup = new mapboxgl.Popup({ offset: 25, closeOnClick:true, })
-        .setHTML('<h3><b>DETAILS</b></h3><input></input></br><button>Send</button><button>Delete</button>')
-    
-        new mapboxgl.Marker(el)
-        .setLngLat([e.lngLat.lng, e.lngLat.lat])
-        .setPopup(popup)
-        .addTo(map);    
-
-        fetch('/api/saveCoordinates', {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          marker: {
-            longitude: e.lngLat.lng,
-            latitude: e.lngLat.lat,
-            id: el.id
-
-          }
-        })
+  document.getElementById('parkBtn')!.onclick = function() {
+    isClickedParkBtn = true;
+      map.on('dblclick', function(e:any) {
+    if (isClickedParkBtn) {
         
-      })
-        isClickedParckBtn = false;
-  }
-
-    
-    });
+        let el = document.createElement('div');
+        let pop = document.createElement('div');;
+        const removeMarker = document.createElement('div');
+        const saveDetails = document.createElement('div');
+        const title = document.createElement('div');
   
-}​;​
+        saveDetails.id = 'saveDetails';
+  
+        let inputDetails = document.createElement('div');
+        
+  
+        removeMarker.innerHTML = "<button id='sendDetails'>Sterge</button>";
+        saveDetails.innerHTML = "<button id='sendDetails'>Salveaza</button>";
+        inputDetails.innerHTML = "<input id='markerInput'></input>";
+        title.innerHTML="<h2 class='mt-2'>Details</h2>"
+  
+        el.id = 'park';
+        el.setAttribute('style', ' background-size: cover; width: 75px; height:75px; border-radius: 0%; cursor: pointer;');
+        el.style.backgroundImage = "url(../../assets/img/parc4.png)";  
+        console.log( JSON.stringify(e.lngLat.wrap()))
+      
+        pop.appendChild(title);
+        pop.appendChild(inputDetails);
+        pop.appendChild(removeMarker);
+        pop.appendChild(saveDetails);
+  
+        el.appendChild(pop);
+  
+        saveDetails.addEventListener('click', (e) => {
+          let x=(<HTMLInputElement>document.getElementById('markerInput')).value;
+          console.log(x);
+          const txtDetails = document.createElement('p');
+          txtDetails.innerHTML=x;
+          pop.appendChild(txtDetails);
+  
+          fetch('/saveDetails', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            popup: {
+              txtDetails: x
+            }
+          })
+        })
+        });
+        
+        removeMarker.addEventListener('click', (e) => {
+        el.remove();
+        console.log('Marker was deleted');
+        });
+  
+          let popup = new mapboxgl.Popup({ offset: 25, closeOnClick:true, })
+          .setHTML("<h3><b>DETAILS</b></h3></br><button onclick='' id='deleteMarker'>Delete</button>")
+          .setDOMContent(pop);
+        
+          new mapboxgl.Marker(el)
+          .setLngLat([e.lngLat.lng, e.lngLat.lat])
+          .setPopup(popup)
+          .addTo(map);  
+          
+          
+          fetch('/api/saveCoordinates', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+          },
+          
+          body: JSON.stringify({
+            marker: {
+              longitude: e.lngLat.lng,
+              latitude: e.lngLat.lat,
+              type: el.id
+            }
+          })
+          
+        })
+        isClickedParkBtn = false;
+    }
+  
+      });
+  }​;​
 
+
+  document.getElementById('reportBtn')!.onclick = function() {
+    isClickedReportBtn = true;
+      map.on('dblclick', function(e:any) {
+    if (isClickedReportBtn) {
+        
+        let el = document.createElement('div');
+        let pop = document.createElement('div');;
+        const removeMarker = document.createElement('div');
+        const saveDetails = document.createElement('div');
+        const title = document.createElement('div');
+  
+        saveDetails.id = 'saveDetails';
+  
+        let inputDetails = document.createElement('div');
+        
+  
+        removeMarker.innerHTML = "<button id='sendDetails'>Sterge</button>";
+        saveDetails.innerHTML = "<button id='sendDetails'>Salveaza</button>";
+        inputDetails.innerHTML = "<input id='markerInput'></input>";
+        title.innerHTML="<h2 class='mt-2'>Details</h2>"
+  
+        el.id = 'report';
+        el.setAttribute('style', ' background-size: cover; width: 75px; height:75px; border-radius: 0%; cursor: pointer;');
+        el.style.backgroundImage = "url(../../assets/img/red-flag.png)";  
+        console.log( JSON.stringify(e.lngLat.wrap()))
+      
+        pop.appendChild(title);
+        pop.appendChild(inputDetails);
+        pop.appendChild(removeMarker);
+        pop.appendChild(saveDetails);
+  
+        el.appendChild(pop);
+  
+        saveDetails.addEventListener('click', (e) => {
+          let x=(<HTMLInputElement>document.getElementById('markerInput')).value;
+          console.log(x);
+          const txtDetails = document.createElement('p');
+          txtDetails.innerHTML=x;
+          pop.appendChild(txtDetails);
+  
+          fetch('/saveDetails', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            popup: {
+              txtDetails: x
+            }
+          })
+        })
+        });
+        
+        removeMarker.addEventListener('click', (e) => {
+        el.remove();
+        console.log('Marker was deleted');
+        });
+  
+          let popup = new mapboxgl.Popup({ offset: 25, closeOnClick:true, })
+          .setHTML("<h3><b>DETAILS</b></h3></br><button onclick='' id='deleteMarker'>Delete</button>")
+          .setDOMContent(pop);
+        
+          new mapboxgl.Marker(el)
+          .setLngLat([e.lngLat.lng, e.lngLat.lat])
+          .setPopup(popup)
+          .addTo(map);  
+          
+          
+          fetch('/api/saveCoordinates', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+          },
+          
+          body: JSON.stringify({
+            marker: {
+              longitude: e.lngLat.lng,
+              latitude: e.lngLat.lat,
+              type: el.id
+            }
+          })
+          
+        })
+        isClickedReportBtn = false;
+    }
+  
+      });
+  }​;​
+
+ document.getElementById('reportBtn')!.onclick = function() {
+    isClickedReportBtn = true;
+      map.on('dblclick', function(e:any) {
+    if (isClickedReportBtn) {
+        
+        let el = document.createElement('div');
+        let pop = document.createElement('div');;
+        const removeMarker = document.createElement('div');
+        const saveDetails = document.createElement('div');
+        const title = document.createElement('div');
+  
+        saveDetails.id = 'saveDetails';
+  
+        let inputDetails = document.createElement('div');
+        
+  
+        removeMarker.innerHTML = "<button id='sendDetails'>Sterge</button>";
+        saveDetails.innerHTML = "<button id='sendDetails'>Salveaza</button>";
+        inputDetails.innerHTML = "<input id='markerInput'></input>";
+        title.innerHTML="<h2 class='mt-2'>Details</h2>"
+  
+        el.id = 'report';
+        el.setAttribute('style', ' background-size: cover; width: 75px; height:75px; border-radius: 0%; cursor: pointer;');
+        el.style.backgroundImage = "url(../../assets/img/red-flag.png)";  
+        console.log( JSON.stringify(e.lngLat.wrap()))
+      
+        pop.appendChild(title);
+        pop.appendChild(inputDetails);
+        pop.appendChild(removeMarker);
+        pop.appendChild(saveDetails);
+  
+        el.appendChild(pop);
+  
+        saveDetails.addEventListener('click', (e) => {
+          let x=(<HTMLInputElement>document.getElementById('markerInput')).value;
+          console.log(x);
+          const txtDetails = document.createElement('p');
+          txtDetails.innerHTML=x;
+          pop.appendChild(txtDetails);
+  
+          fetch('/saveDetails', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            popup: {
+              txtDetails: x
+            }
+          })
+        })
+        });
+        
+        removeMarker.addEventListener('click', (e) => {
+        el.remove();
+        console.log('Marker was deleted');
+        });
+  
+          let popup = new mapboxgl.Popup({ offset: 25, closeOnClick:true, })
+          .setHTML("<h3><b>DETAILS</b></h3></br><button onclick='' id='deleteMarker'>Delete</button>")
+          .setDOMContent(pop);
+        
+          new mapboxgl.Marker(el)
+          .setLngLat([e.lngLat.lng, e.lngLat.lat])
+          .setPopup(popup)
+          .addTo(map);  
+          
+          
+          fetch('/api/saveCoordinates', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+          },
+          
+          body: JSON.stringify({
+            marker: {
+              longitude: e.lngLat.lng,
+              latitude: e.lngLat.lat,
+              type: el.id
+            }
+          })
+          
+        })
+        isClickedReportBtn = false;
+    }
+  
+      });
+  }​;​
 
 map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 }); 
 

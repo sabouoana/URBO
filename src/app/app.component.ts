@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 
-declare var $: any;
+declare var $: any; 
 
 
 @Component({
@@ -16,6 +16,8 @@ export class AppComponent implements OnInit {
   constructor() {}
   
   ngOnInit() {
+
+    
   }
    
 }

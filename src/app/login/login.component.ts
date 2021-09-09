@@ -18,8 +18,7 @@ export class LoginComponent implements OnInit {
 
   clickLogin() {
     let username = (<HTMLInputElement>document.getElementById('email')).value;
-    let password = (<HTMLInputElement>document.getElementById('password'))
-      .value;
+    let password = (<HTMLInputElement>document.getElementById('password')).value;
 
     this.http
       .post('/api/login', {
